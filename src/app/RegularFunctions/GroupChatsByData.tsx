@@ -1,15 +1,17 @@
 import { isToday, isYesterday, parseISO, format } from "date-fns";
 
 export default function GroupChatsByDate() {
-  function groupConversationsByDate(conversations: any) {
-    return (conversations ?? []).reduce((groups: any, convo: any) => {
-      const dateKey = new Date(convo.createdAt).toISOString().split("T")[0];
 
-      if (!groups[dateKey]) groups[dateKey] = [];
-      groups[dateKey].push(convo);
-      return groups;
-    }, {} as Record<string, typeof conversations>);
-  }
+function groupConversationsByDate(conversations: any) {
+  return (conversations ?? []).reduce((groups: any, convo: any) => {
+    // Format in local time
+    const dateKey = format(new Date(convo.createdAt), 'yyyy-MM-dd');
+
+    if (!groups[dateKey]) groups[dateKey] = [];
+    groups[dateKey].push(convo);
+    return groups;
+  }, {} as Record<string, typeof conversations>);
+}
 
   function sortGroupedConversations(groups: any) {
     const sortedDates = Object.keys(groups).sort((a, b) => (a < b ? 1 : -1)); // newest first
