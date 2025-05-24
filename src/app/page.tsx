@@ -64,7 +64,7 @@ export default function ChatPage() {
         <></>
       )}
       <main
-        className={`flex flex-col flex-1 h-[94%]! md:h-full! w-full overflow-hidden`}
+        className={`flex flex-col flex-1 h-[94%]! md:h-full! w-full! overflow-hidden`}
       >
         <header className="pl-4 pr-4 md:p-4 border-b flex justify-between items-center sticky top-0 bg-background/95 backdrop-blur-sm z-10">
           <div className="md:hidden">

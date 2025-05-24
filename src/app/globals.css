@@ -146,13 +146,14 @@ code {
 }
 
 body {
-  overflow: hidden;
-  /* position: fixed; */
+  overflow: hidden !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 @media (max-width: 767px) {
   body {
-    position: fixed;
-    overflow: hidden !important;
+    position:fixed !important;
   }
 }
