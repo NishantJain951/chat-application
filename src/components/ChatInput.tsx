@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from 'react';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
@@ -22,10 +22,10 @@ export default function ChatInput({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input.trim() || isLoading || disabled) return;
-    onSubmit(e);
+    onSubmit(e); // Pass the event
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+ const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey && !disabled) {
       e.preventDefault();
       if (!input.trim() || isLoading) return;

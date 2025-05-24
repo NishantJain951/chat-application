@@ -168,6 +168,9 @@ export default function SubmitChatFunction(): any {
           isError: true
         }
       );
+      throw new Error(
+          `API Error (${error?.error ? error.error : 'Could not generate response'}):`
+        );
     } finally {
       updateConversationHandler(activeConversationId, { isLoading: false });
     }
