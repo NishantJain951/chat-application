@@ -7,8 +7,8 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ### Prerequisites
 
-*   **Node.js:** v20.11.0 or higher (Check with `node -v`)
-*   **npm:** (Usually comes with Node.js. Check with `npm -v`)
+*   **Node.js:** v20.11.0 or higher
+*   **npm:** v10.2.4 or higher
 *   **Git:** For cloning the repository.
 *   **A Gemini API Key:** Obtainable from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
