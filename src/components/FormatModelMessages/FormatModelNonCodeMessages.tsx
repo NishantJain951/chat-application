@@ -27,7 +27,7 @@ export default function renderFormattedText(
     p: ({ children }) => <p className="whitespace-pre-wrap mb-2">{children}</p>,
     ul: ({ children }) => <ul className="list-disc ml-6">{children}</ul>,
     li: ({ children }) => <li>{children}</li>,
-    strong: ({ children }) => <strong>{children}</strong>, // Simplified, no h3 logic
+    strong: ({ children }) => <strong>{children}</strong>,
     em: ({ children }) => <em>{children}</em>,
     code: ({ inline, children, ...props }: CodeProps) => {
       if (inline) {
@@ -63,10 +63,9 @@ function remarkCustomHeading() {
           child.children[0].type === "text" &&
           child.children[0].value.endsWith(":")
         ) {
-          // Replace paragraph with heading
           node.type = "heading";
-          node.depth = 3; // h3
-          node.children = child.children; // Use the text inside strong
+          node.depth = 3;
+          node.children = child.children;
         }
       }
     });

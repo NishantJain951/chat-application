@@ -22,7 +22,7 @@ export default function ChatInput({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input.trim() || isLoading || disabled) return;
-    onSubmit(e); // Pass the event
+    onSubmit(e);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

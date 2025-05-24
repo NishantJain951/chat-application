@@ -2,7 +2,11 @@ import { useMemo } from "react";
 import { SidebarProps } from "../lib/types";
 import GroupChatsByDate from "@/app/RegularFunctions/GroupChatsByData";
 import { Button } from "./ui/button";
-import { ChatBubbleIcon, PlusCircledIcon, TrashIcon } from "@radix-ui/react-icons";
+import {
+  ChatBubbleIcon,
+  PlusCircledIcon,
+  TrashIcon,
+} from "@radix-ui/react-icons";
 import { ScrollArea } from "./ui/scroll-area";
 import { cn } from "../lib/utils";
 
@@ -14,7 +18,7 @@ export default function SidebarContent({
   onDeleteChat,
   onInteraction,
 }: SidebarProps & { onInteraction?: () => void }) {
-    const {
+  const {
     groupConversationsByDate,
     sortGroupedConversations,
     formatDateLabel,

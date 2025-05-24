@@ -50,7 +50,6 @@ export default function AddUpdateDeleteChats(): any {
 
   /**
    * Deletes a chat conversation.
-   * Dispatches an action to remove the specified conversation from the Redux store.
    *
    * @param {string} id - The ID of the conversation to delete.
    */

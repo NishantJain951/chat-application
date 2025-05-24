@@ -1,8 +1,8 @@
-import { createTransform } from 'redux-persist';
-import { ChatMessage, Conversation } from '../lib/types';
+import { createTransform } from "redux-persist";
+import { ChatMessage, Conversation } from "../lib/types";
 
 const sanitizeMessage = (m: ChatMessage): ChatMessage => {
-  const shouldMarkError = m?.isLoadingError
+  const shouldMarkError = m?.isLoadingError;
   console.log("m: ", m);
   return {
     ...m,
@@ -41,5 +41,5 @@ export const conversationsTransform = createTransform(
     conversations: outboundState.conversations.map(sanitizeConversation),
   }),
 
-  { whitelist: ['conversations'] }
+  { whitelist: ["conversations"] }
 );

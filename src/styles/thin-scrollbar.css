@@ -12,7 +12,7 @@
 }
 
 .thin-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(100, 100, 100, 0.6); 
+  background-color: rgba(100, 100, 100, 0.6);
 }
 
 .thin-scrollbar {

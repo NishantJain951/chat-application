@@ -1,26 +1,31 @@
-"use client"
-import * as React from "react"
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
-import { CheckIcon } from "lucide-react"
-import { useTheme } from "next-themes"
+"use client";
+import * as React from "react";
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { CheckIcon } from "lucide-react";
+import { useTheme } from "next-themes";
 
-import { Button } from "./ui/button"
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu"
+} from "./ui/dropdown-menu";
 
 export function ThemeToggle() {
-  const { setTheme, theme } = useTheme()
+  const { setTheme, theme } = useTheme();
 
   const renderItem = (label: string, value: string) => (
-    <DropdownMenuItem onClick={() => setTheme(value)} className="flex items-center justify-between">
+    <DropdownMenuItem
+      onClick={() => setTheme(value)}
+      className="flex items-center justify-between"
+    >
       <span>{label}</span>
-      {theme === value && <CheckIcon className="ml-2 h-4 w-4 text-muted-foreground" />}
+      {theme === value && (
+        <CheckIcon className="ml-2 h-4 w-4 text-muted-foreground" />
+      )}
     </DropdownMenuItem>
-  )
+  );
 
   return (
     <DropdownMenu>
@@ -37,5 +42,5 @@ export function ThemeToggle() {
         {renderItem("System", "system")}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import { combineReducers } from '@reduxjs/toolkit';
-import conversationsReducer from './Reducer';
+import { combineReducers } from "@reduxjs/toolkit";
+import conversationsReducer from "./Reducer";
 
 const rootReducer: any = combineReducers({
   conversations: conversationsReducer,

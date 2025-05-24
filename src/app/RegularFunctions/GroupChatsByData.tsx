@@ -4,9 +4,7 @@ export default function GroupChatsByDate() {
 
 function groupConversationsByDate(conversations: any) {
   return (conversations ?? []).reduce((groups: any, convo: any) => {
-    // Format in local time
     const dateKey = format(new Date(convo.createdAt), 'yyyy-MM-dd');
-
     if (!groups[dateKey]) groups[dateKey] = [];
     groups[dateKey].push(convo);
     return groups;
@@ -14,7 +12,7 @@ function groupConversationsByDate(conversations: any) {
 }
 
   function sortGroupedConversations(groups: any) {
-    const sortedDates = Object.keys(groups).sort((a, b) => (a < b ? 1 : -1)); // newest first
+    const sortedDates = Object.keys(groups).sort((a, b) => (a < b ? 1 : -1));
 
     return sortedDates.map((date) => {
       const convos = groups[date].sort(
@@ -26,12 +24,12 @@ function groupConversationsByDate(conversations: any) {
   }
 
   function formatDateLabel(dateStr: string): string {
-    const date = parseISO(dateStr); // ensures it's a Date object
+    const date = parseISO(dateStr);
 
     if (isToday(date)) return "Today";
     if (isYesterday(date)) return "Yesterday";
 
-    return format(date, "EEE, MMM d, yyyy"); // e.g., "Mon, May 20, 2024"
+    return format(date, "EEE, MMM d, yyyy");
   }
 
   return {

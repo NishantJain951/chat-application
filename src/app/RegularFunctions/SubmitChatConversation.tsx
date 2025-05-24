@@ -186,7 +186,6 @@ export default function SubmitChatFunction(): any {
   };
 
   /**
-   * Simulates a typing effect for the assistant's response.
    * Updates the assistant's message content incrementally to create a visual typing effect.
    * @param {string} convoId - The ID of the conversation.
    * @param {string} messageId - The ID of the assistant's message to update.

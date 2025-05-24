@@ -1,5 +1,5 @@
 "use client";
-import { Conversation } from "../lib/types";
+import { SidebarProps } from "../lib/types";
 import { Button } from "./ui/button";
 import {
   Sheet,
@@ -12,15 +12,6 @@ import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import SidebarContent from "./SidebarContext";
 
-interface SidebarProps {
-  conversations: Conversation[];
-  activeConversationId: string | null;
-  onCreateNewChat: () => void;
-  onSelectChat: (id: string) => void;
-  onDeleteChat: (id: string) => void;
-  isSidebarOpen?: any;
-  setIsSidebarOpen?: any;
-}
 
 export default function Sidebar(props: SidebarProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);

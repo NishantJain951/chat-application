@@ -1,4 +1,4 @@
-import { Conversation } from '../lib/types';
+import { Conversation } from "../lib/types";
 import {
   ADD_CONVERSATION,
   SET_ACTIVE_CONVERSATION_ID,
@@ -6,7 +6,7 @@ import {
   UPDATE_CONVERSATION,
   ADD_MESSAGE_TO_CONVERSATION,
   UPDATE_MESSAGE_IN_CONVERSATION,
-} from './ActionTypes';
+} from "./ActionTypes";
 
 interface ConversationsState {
   conversations: Conversation[];
@@ -18,10 +18,15 @@ const initialState: ConversationsState = {
   activeConversationId: null,
 };
 
-export default function conversationsReducer(state = initialState, action: any): ConversationsState {
+export default function conversationsReducer(
+  state = initialState,
+  action: any
+): ConversationsState {
   switch (action.type) {
     case ADD_CONVERSATION:
-      const newConversions = state?.conversations?.length ? [action.payload, ...state.conversations] : [action.payload]
+      const newConversions = state?.conversations?.length
+        ? [action.payload, ...state.conversations]
+        : [action.payload];
       return {
         ...state,
         conversations: newConversions,
@@ -30,7 +35,8 @@ export default function conversationsReducer(state = initialState, action: any):
       return {
         ...state,
         activeConversationId:
-          action.payload && state.conversations.find(c => c.id === action.payload)
+          action.payload &&
+          state.conversations.find((c) => c.id === action.payload)
             ? action.payload
             : state.conversations.length > 0
             ? state.conversations[0].id
@@ -39,25 +45,27 @@ export default function conversationsReducer(state = initialState, action: any):
     case DELETE_CONVERSATION:
       return {
         ...state,
-        conversations: state.conversations.filter(c => c.id !== action.payload),
+        conversations: state.conversations.filter(
+          (c) => c.id !== action.payload
+        ),
         activeConversationId:
           state.activeConversationId === action.payload
             ? state.conversations.length > 1
-              ? state.conversations.find(c => c.id !== action.payload)!.id
+              ? state.conversations.find((c) => c.id !== action.payload)!.id
               : null
             : state.activeConversationId,
       };
     case UPDATE_CONVERSATION:
       return {
         ...state,
-        conversations: state.conversations.map(c =>
+        conversations: state.conversations.map((c) =>
           c.id === action.payload.id ? { ...c, ...action.payload.updates } : c
         ),
       };
     case ADD_MESSAGE_TO_CONVERSATION:
       return {
         ...state,
-        conversations: state.conversations.map(c =>
+        conversations: state.conversations.map((c) =>
           c.id === action.payload.convoId
             ? { ...c, messages: [...c.messages, action.payload.message] }
             : c
@@ -66,12 +74,14 @@ export default function conversationsReducer(state = initialState, action: any):
     case UPDATE_MESSAGE_IN_CONVERSATION:
       return {
         ...state,
-        conversations: state.conversations.map(c =>
+        conversations: state.conversations.map((c) =>
           c.id === action.payload.convoId
             ? {
                 ...c,
-                messages: c.messages.map(m =>
-                  m.id === action.payload.messageId ? { ...m, ...action.payload.updates } : m
+                messages: c.messages.map((m) =>
+                  m.id === action.payload.messageId
+                    ? { ...m, ...action.payload.updates }
+                    : m
                 ),
               }
             : c

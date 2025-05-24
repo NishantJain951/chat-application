@@ -5,7 +5,7 @@ export interface ChatMessage {
   createdAt?: Date | string;
   isLoading?: boolean;
   isError?: boolean;
-  isLoadingError?: boolean
+  isLoadingError?: boolean;
 }
 
 export interface Conversation {
