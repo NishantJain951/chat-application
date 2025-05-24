@@ -1,0 +1,21 @@
+.remove-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.remove-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.remove-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.4);
+  border-radius: 4px;
+}
+
+.remove-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 100, 100, 0.6);
+}
+
+.remove-scrollbar {
+  scrollbar-width: none;
+  scrollbar-color: rgba(100, 100, 100, 0.4) transparent;
+}
