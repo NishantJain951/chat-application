@@ -34,7 +34,7 @@ export default function ChatInput({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-3 md:p-4 border-t bg-background">
+    <form onSubmit={handleSubmit} className="p-3 md:p-4 border-t bg-background mb-[50px] mx-1">
       <div className="flex items-end gap-2">
         <Input
           value={input}

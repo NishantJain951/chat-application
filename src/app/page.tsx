@@ -151,9 +151,22 @@ export default function ChatPage() {
   const activeConversationId = useSelector(
     (state: any) => state.conversations.activeConversationId // Adjust
   );
-  const activeConversation: Conversation | null | undefined = conversations?.length // Typed activeConversation
-    ? conversations.find((c: Conversation) => c.id === activeConversationId)
-    : null;
+  const activeConversation: Conversation | null | undefined =
+    conversations?.length // Typed activeConversation
+      ? conversations.find((c: Conversation) => c.id === activeConversationId)
+      : null;
+
+  useEffect(() => {
+    const setAppHeight = () => {
+      const doc = document.documentElement;
+      doc.style.setProperty("--app-height", `${window.innerHeight}px`);
+    };
+
+    window.addEventListener("resize", setAppHeight);
+    setAppHeight(); // Initial set
+
+    return () => window.removeEventListener("resize", setAppHeight);
+  }, []);
 
   /**
    * Manages sidebar visibility based on window width.
@@ -176,7 +189,6 @@ export default function ChatPage() {
     if (window.innerWidth >= 768) {
       setIsSidebarOpen(true); // For desktop, sidebar is "conceptually" always open if rendered
     }
-
 
     window.addEventListener("resize", handleResize);
     return () => {
@@ -204,9 +216,7 @@ export default function ChatPage() {
         {/* Header */}
         <header className="pl-4 pr-4 md:pr-4 border-b flex justify-between items-center sticky top-0 bg-background/95 backdrop-blur-sm z-20 h-16 shrink-0">
           {/* Mobile Sidebar Toggle/Button (renders Sidebar as a drawer) */}
-          {width < 768 && (
-             <Sidebar {...commonSidebarProps} />
-          )}
+          {width < 768 && <Sidebar {...commonSidebarProps} />}
           <h1
             className="text-lg font-semibold truncate flex-1 text-center md:text-left md:ml-4" // Added md:ml-4 for spacing when mobile sidebar button is present
             title={activeConversation?.title || "Chat"}
@@ -229,11 +239,15 @@ export default function ChatPage() {
               />
             </div>
             {/* ChatInput sticks to the bottom of this flex container */}
-            <div className="shrink-0"> {/* Prevent ChatInput from shrinking */}
+            <div className="shrink-0">
+              {" "}
+              {/* Prevent ChatInput from shrinking */}
               <ChatInput
                 input={currentInput}
                 onInputChange={setCurrentInput}
-                onSubmit={(event?: FormEvent<HTMLFormElement>) => // Make event optional
+                onSubmit={(
+                  event?: FormEvent<HTMLFormElement> // Make event optional
+                ) =>
                   handleSubmitMessage(
                     activeConversationId as string, // Ensure activeConversationId is string
                     currentInput,
