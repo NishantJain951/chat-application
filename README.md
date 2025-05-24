@@ -92,3 +92,7 @@ Cypress is used for end-to-end testing.
 *   [Gemini API](https://ai.google.dev/docs) - AI Model
 *   [Jest](https://jestjs.io/) - Testing Framework
 *   [Cypress](https://www.cypress.io/) - E2E Testing Framework
+
+
+## Vercal Link
+* [Vercel-chat-app](https://chat-application-pied-alpha.vercel.app/) - Deployed on Vercel
