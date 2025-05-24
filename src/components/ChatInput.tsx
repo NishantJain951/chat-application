@@ -1,8 +1,8 @@
 "use client";
-import React from 'react';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
-import { PaperPlaneIcon, SymbolIcon } from '@radix-ui/react-icons';
+import React from "react";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { PaperPlaneIcon, SymbolIcon } from "@radix-ui/react-icons";
 
 interface ChatInputProps {
   input: string;
@@ -25,8 +25,8 @@ export default function ChatInput({
     onSubmit(e); // Pass the event
   };
 
- const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey && !disabled) {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey && !disabled) {
       e.preventDefault();
       if (!input.trim() || isLoading) return;
       onSubmit();
@@ -34,13 +34,18 @@ export default function ChatInput({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-3 md:p-4 border-t bg-background mb-[50px] mx-1">
+    <form
+      onSubmit={handleSubmit}
+      className="p-3 md:p-4 border-t bg-background mx-[5px]"
+    >
       <div className="flex items-end gap-2">
         <Input
           value={input}
           onChange={(e) => onInputChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={disabled ? "Select or create a chat" : "Send a message..."}
+          placeholder={
+            disabled ? "Select or create a chat" : "Send a message..."
+          }
           disabled={isLoading || disabled}
           className="flex-1"
           aria-label="Chat message input"

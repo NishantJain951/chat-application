@@ -2,7 +2,7 @@ import { FormEvent, useCallback } from "react";
 import { MAX_MESSAGES_PER_CONVERSATION } from "../../lib/utils";
 import { toast } from "sonner";
 import { nanoid } from "nanoid";
-import { ChatMessage, Conversation, GeminiContent } from "../../lib/types"; 
+import { ChatMessage, Conversation, GeminiContent } from "../../lib/types";
 import ChatApiServices from "../../services/ChatApiService";
 import AddUpdateDeleteChats from "./AddUpdateDeleteChats";
 
@@ -47,7 +47,10 @@ export default function SubmitChatFunction(): any {
       return;
     }
 
-    if (activeConversation.messages.length >= MAX_MESSAGES_PER_CONVERSATION) {
+    const nonErrorConversations = activeConversation?.messages.filter((item: any) => item?.role === "assistant" && !item?.isError)
+
+    if (nonErrorConversations.length >= MAX_MESSAGES_PER_CONVERSATION) {
+        console.log("code in react js: ", activeConversation)
       toast.error(
         `Maximum limit of ${MAX_MESSAGES_PER_CONVERSATION} messages reached in this conversation. Please start a new conversation.`
       );
@@ -64,7 +67,7 @@ export default function SubmitChatFunction(): any {
     addMessageToConversationHandler(activeConversationId, userMessage);
 
     if (
-      activeConversation.messages.length === 0 && 
+      activeConversation.messages.length === 0 &&
       activeConversation.title.startsWith("New Chat")
     ) {
       updateConversationHandler(activeConversationId, {
@@ -81,11 +84,13 @@ export default function SubmitChatFunction(): any {
       content: "",
       isLoading: true,
       createdAt: new Date().toISOString(),
+      isLoadingError: true
     });
 
     const geminiHistory: GeminiContent[] = activeConversation.messages
       .filter(
-        (m: ChatMessage) => m.role === "user" || (m.role === "assistant" && m.content)
+        (m: ChatMessage) =>
+          m.role === "user" || (m.role === "assistant" && m.content)
       )
       .map((m: ChatMessage) => ({
         role: m.role === "user" ? "user" : "model",
@@ -119,11 +124,10 @@ export default function SubmitChatFunction(): any {
             content: `Error: ${errorMessage}`,
             isLoading: false,
             isError: true,
+            isLoadingError: true,
           }
         );
-        throw new Error(
-          `API Error (${response.status}): ${errorMessage}`
-        );
+        throw new Error(`API Error (${response.status}): ${errorMessage}`);
       }
 
       const reader = response.body
@@ -137,16 +141,18 @@ export default function SubmitChatFunction(): any {
         const lines = value.split("\n");
         for (const line of lines) {
           if (line.startsWith("data: ")) {
+            const jsonStr = line.substring(6).trim();
+            if (jsonStr === "[DONE]") continue;
             try {
-              const jsonData = JSON.parse(line.substring(5));
-              if (
-                jsonData.candidates &&
-                jsonData.candidates[0]?.content?.parts[0]?.text
-              ) {
-                accumulatedText += jsonData.candidates[0].content.parts[0].text;
+              const jsonData = JSON.parse(jsonStr);
+              const textChunk =
+                jsonData?.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (textChunk) {
+                accumulatedText += textChunk;
               }
-            } catch (error: any) {
-              console.error("Error parsing streamed JSON data: ", error, "Line:", line);
+            } catch (err: any) {
+              console.error("Malformed JSON:", jsonStr);
+              console.log("err: ", err);
             }
           }
         }
@@ -165,12 +171,15 @@ export default function SubmitChatFunction(): any {
         {
           content: "Error: Could not get response.",
           isLoading: false,
-          isError: true
+          isError: true,
+          isLoadingError: true
         }
       );
       throw new Error(
-          `API Error (${error?.error ? error.error : 'Could not generate response'}):`
-        );
+        `API Error (${
+          error?.error ? error.error : "Could not generate response"
+        }):`
+      );
     } finally {
       updateConversationHandler(activeConversationId, { isLoading: false });
     }
@@ -183,28 +192,29 @@ export default function SubmitChatFunction(): any {
    * @param {string} messageId - The ID of the assistant's message to update.
    * @param {string} fullText - The complete text of the assistant's response.
    */
-  const simulateTyping = useCallback(async ( 
-    convoId: string,
-    messageId: string,
-    fullText: string
-  ) => {
-    const chunkSize = 10;
-    const typingDelay = 1;
-    let currentText = "";
+  const simulateTyping = useCallback(
+    async (convoId: string, messageId: string, fullText: string) => {
+      const chunkSize = 5;
+      const typingDelay = 100;
+      let currentText = "";
 
-    for (let i = 0; i <= fullText.length; i += chunkSize) {
-      currentText = fullText.slice(0, i)
+      for (let i = 0; i <= fullText.length; i += chunkSize) {
+        currentText = fullText.slice(0, i);
+        updateMessageInConversationHandler(convoId, messageId, {
+          content: currentText,
+          isLoading: true,
+          isLoadingError: true
+        });
+        await new Promise((resolve) => setTimeout(resolve, typingDelay));
+      }
       updateMessageInConversationHandler(convoId, messageId, {
-        content: currentText,
-        isLoading: true
+        content: fullText,
+        isLoading: false,
+        isLoadingError: false
       });
-      await new Promise((resolve) => setTimeout(resolve, typingDelay));
-    }
-    updateMessageInConversationHandler(convoId, messageId, {
-      content: fullText,
-      isLoading: false,
-    });
-  }, [updateMessageInConversationHandler]);
+    },
+    [updateMessageInConversationHandler]
+  );
 
   return { handleSubmitMessage };
 }

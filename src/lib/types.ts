@@ -5,6 +5,7 @@ export interface ChatMessage {
   createdAt?: Date | string;
   isLoading?: boolean;
   isError?: boolean;
+  isLoadingError?: boolean
 }
 
 export interface Conversation {
@@ -18,4 +19,14 @@ export interface Conversation {
 export interface GeminiContent {
   role: "user" | "model";
   parts: Array<{ text: string }>;
+}
+
+export interface SidebarProps {
+  conversations: Conversation[];
+  activeConversationId: string | null;
+  onCreateNewChat: () => void;
+  onSelectChat: (id: string) => void;
+  onDeleteChat: (id: string) => void;
+  isSidebarOpen?: any;
+  setIsSidebarOpen?: any;
 }

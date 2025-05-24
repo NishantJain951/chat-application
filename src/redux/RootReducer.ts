@@ -1,7 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import conversationsReducer from './Reducer';
 
-const rootReducer = combineReducers({
+const rootReducer: any = combineReducers({
   conversations: conversationsReducer,
 });
 

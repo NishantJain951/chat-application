@@ -147,4 +147,12 @@ code {
 
 body {
   overflow: hidden;
+  /* position: fixed; */
+}
+
+@media (max-width: 767px) {
+  body {
+    position: fixed;
+    overflow: hidden !important;
+  }
 }
