@@ -10,8 +10,8 @@
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/your-project.git
-    cd your-project
+    git clone https://gitlab.com/nishantjain9511-group/chat-app.git
+    cd chat-app
     ```
 2.  Install dependencies:
     ```bash
