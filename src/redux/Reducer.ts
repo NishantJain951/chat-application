@@ -11,12 +11,12 @@ import {
 
 interface ConversationsState {
   conversations: Conversation[];
-  activeConversationId: string | null;
+  activeChatId: string | null;
 }
 
 const initialState: ConversationsState = {
   conversations: [],
-  activeConversationId: null,
+  activeChatId: null,
 };
 
 export default function conversationsReducer(
@@ -35,7 +35,7 @@ export default function conversationsReducer(
     case SET_ACTIVE_CONVERSATION_ID:
       return {
         ...state,
-        activeConversationId:
+        activeChatId:
           action.payload &&
           state.conversations.find((c) => c.id === action.payload)
             ? action.payload
@@ -49,12 +49,12 @@ export default function conversationsReducer(
         conversations: state.conversations.filter(
           (c) => c.id !== action.payload
         ),
-        activeConversationId:
-          state.activeConversationId === action.payload
+        activeChatId:
+          state.activeChatId === action.payload
             ? state.conversations.length > 1
               ? state.conversations.find((c) => c.id !== action.payload)!.id
               : null
-            : state.activeConversationId,
+            : state.activeChatId,
       };
     case UPDATE_CONVERSATION:
       return {

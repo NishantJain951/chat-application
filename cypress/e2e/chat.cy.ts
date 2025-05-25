@@ -145,6 +145,10 @@ describe("Chat Application E2E - Conversation Management (with Debug Pauses)", (
       .find('button[title="Delete chat"]')
       .click({ force: true });
 
+      cy.log("Waiting for SweetAlert2 and confirming delete.");
+cy.get('.swal2-popup', { timeout: 10000 }).should('be.visible');
+cy.get('.swal2-confirm').click();
+
     cy.log(
       "Delete button clicked for second conversation (window.confirm stubbed)."
     );
@@ -178,6 +182,10 @@ describe("Chat Application E2E - Conversation Management (with Debug Pauses)", (
       .parent()
       .find('button[title="Delete chat"]')
       .click({ force: true });
+
+      cy.log("Waiting for SweetAlert2 and confirming delete.");
+cy.get('.swal2-popup', { timeout: 10000 }).should('be.visible');
+cy.get('.swal2-confirm').click();
 
     cy.log("Delete button clicked for first conversation.");
 

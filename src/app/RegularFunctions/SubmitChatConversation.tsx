@@ -10,9 +10,9 @@ export default function SubmitChatFunction(): any {
   const { streamGeminiResponse } = ChatApiServices();
 
   const {
-    updateConversationHandler,
-    addMessageToConversationHandler,
-    updateMessageInConversationHandler,
+    updateChatHandler,
+    addMessageToChatHandler,
+    updateMessageInChatHandler,
   } = AddUpdateDeleteChats();
 
   const GEMINI_API_KEY = process.env.NEXT_PUBLIC_API_KEY;
@@ -20,14 +20,14 @@ export default function SubmitChatFunction(): any {
   /**
    * Handles the submission of a user's message.
    *
-   * @param {string} activeConversationId - The ID of the currently active conversation.
-   * @param {string} currentInput - The text content of the user's message.
-   * @param {any} activeConversation - The active conversation object (consider using a specific `Conversation` type).
-   * @param {Function} setCurrentInput - A state setter function to clear the input field.
-   * @param {FormEvent<HTMLFormElement>} [e] - Optional form event to prevent default submission.
+   * @param {string} activeChatId
+   * @param {string} currentInput
+   * @param {any} activeConversation
+   * @param {Function} setCurrentInput
+   * @param {FormEvent<HTMLFormElement>} [e]
    */
   const handleSubmitMessage = async (
-    activeConversationId: string,
+    activeChatId: string,
     currentInput: string,
     activeConversation: Conversation,
     setCurrentInput: (input: string) => void,
@@ -37,7 +37,7 @@ export default function SubmitChatFunction(): any {
 
     if (
       !currentInput.trim() ||
-      !activeConversationId ||
+      !activeChatId ||
       !activeConversation ||
       !GEMINI_API_KEY
     ) {
@@ -47,10 +47,12 @@ export default function SubmitChatFunction(): any {
       return;
     }
 
-    const nonErrorConversations = activeConversation?.messages.filter((item: any) => item?.role === "assistant" && !item?.isError)
+    const nonErrorConversations = activeConversation?.messages.filter(
+      (item: any) => item?.role === "assistant" && !item?.isError
+    );
 
     if (nonErrorConversations.length >= MAX_MESSAGES_PER_CONVERSATION) {
-        console.log("code in react js: ", activeConversation)
+      console.log("code in react js: ", activeConversation);
       toast.error(
         `Maximum limit of ${MAX_MESSAGES_PER_CONVERSATION} messages reached in this conversation. Please start a new conversation.`
       );
@@ -64,26 +66,26 @@ export default function SubmitChatFunction(): any {
       content: userInput,
       createdAt: new Date().toISOString(),
     };
-    addMessageToConversationHandler(activeConversationId, userMessage);
+    addMessageToChatHandler(activeChatId, userMessage);
 
     if (
       activeConversation.messages.length === 0 &&
       activeConversation.title.startsWith("New Chat")
     ) {
-      updateConversationHandler(activeConversationId, {
+      updateChatHandler(activeChatId, {
         title:
           userInput.substring(0, 30) + (userInput.length > 30 ? "..." : ""),
       });
     }
-    updateConversationHandler(activeConversationId, { isLoading: true });
+    updateChatHandler(activeChatId, { isLoading: true });
 
     const assistantMessageId = nanoid();
-    addMessageToConversationHandler(activeConversationId, {
+    addMessageToChatHandler(activeChatId, {
       id: assistantMessageId,
       role: "assistant",
       content: "",
       isLoading: true,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     });
 
     const geminiHistory: GeminiContent[] = activeConversation.messages
@@ -116,15 +118,11 @@ export default function SubmitChatFunction(): any {
           response.statusText ||
           "Unknown API error";
 
-        updateMessageInConversationHandler(
-          activeConversationId,
-          assistantMessageId,
-          {
-            content: `Error: ${errorMessage}`,
-            isLoading: false,
-            isError: true
-          }
-        );
+        updateMessageInChatHandler(activeChatId, assistantMessageId, {
+          content: `Error: ${errorMessage}`,
+          isLoading: false,
+          isError: true,
+        });
         throw new Error(`API Error (${response.status}): ${errorMessage}`);
       }
 
@@ -155,38 +153,28 @@ export default function SubmitChatFunction(): any {
           }
         }
       }
-      await simulateTyping(
-        activeConversationId,
-        assistantMessageId,
-        accumulatedText
-      );
+      await simulateTyping(activeChatId, assistantMessageId, accumulatedText);
     } catch (error: any) {
-      console.error("Gemini API call failed:", error);
-      toast.error(`AI Error: ${error.message || "Could not get response"}`);
-      updateMessageInConversationHandler(
-        activeConversationId,
-        assistantMessageId,
-        {
-          content: "Error: Could not get response.",
-          isLoading: false,
-          isError: true
-        }
-      );
-      throw new Error(
-        `API Error (${
+      toast.error(
+        `AI Error: ${
           error?.error ? error.error : "Could not generate response"
-        }):`
+        }:`
       );
+      updateMessageInChatHandler(activeChatId, assistantMessageId, {
+        content: "Error: Could not get response.",
+        isLoading: false,
+        isError: true,
+      });
     } finally {
-      updateConversationHandler(activeConversationId, { isLoading: false });
+      updateChatHandler(activeChatId, { isLoading: false });
     }
   };
 
   /**
    * Updates the assistant's message content incrementally to create a visual typing effect.
-   * @param {string} convoId - The ID of the conversation.
-   * @param {string} messageId - The ID of the assistant's message to update.
-   * @param {string} fullText - The complete text of the assistant's response.
+   * @param {string} convoId
+   * @param {string} messageId
+   * @param {string} fullText
    */
   const simulateTyping = useCallback(
     async (convoId: string, messageId: string, fullText: string) => {
@@ -196,18 +184,18 @@ export default function SubmitChatFunction(): any {
 
       for (let i = 0; i <= fullText.length; i += chunkSize) {
         currentText = fullText.slice(0, i);
-        updateMessageInConversationHandler(convoId, messageId, {
+        updateMessageInChatHandler(convoId, messageId, {
           content: currentText,
-          isLoading: true
+          isLoading: true,
         });
         await new Promise((resolve) => setTimeout(resolve, typingDelay));
       }
-      updateMessageInConversationHandler(convoId, messageId, {
+      updateMessageInChatHandler(convoId, messageId, {
         content: fullText,
-        isLoading: false
+        isLoading: false,
       });
     },
-    [updateMessageInConversationHandler]
+    [updateMessageInChatHandler]
   );
 
   return { handleSubmitMessage };

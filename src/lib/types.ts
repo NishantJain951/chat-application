@@ -23,7 +23,7 @@ export interface GeminiContent {
 
 export interface SidebarProps {
   conversations: Conversation[];
-  activeConversationId: string | null;
+  activeChatId: string | null;
   onCreateNewChat: () => void;
   onSelectChat: (id: string) => void;
   onDeleteChat: (id: string) => void;

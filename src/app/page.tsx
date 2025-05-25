@@ -24,26 +24,27 @@ export default function ChatPage() {
   const conversations = useSelector(
     (state: any) => state.conversations.conversations
   );
-  const activeConversationId = useSelector(
-    (state: any) => state.conversations.activeConversationId
+  const activeChatId = useSelector(
+    (state: any) => state.conversations.activeChatId
   );
   const activeConversation = conversations?.length
-    ? conversations.find((c: Conversation) => c.id === activeConversationId)
+    ? conversations.find((c: Conversation) => c.id === activeChatId)
     : null;
 
+  /**
+   * If we reload app before chat response is completed,
+   * then re-run that chat again
+   */
   useEffect(() => {
     if (!activeConversation || !activeConversation.messages?.length) return;
-
     const messages = [...activeConversation.messages];
     const lastMsg = messages[messages.length - 1];
     const secondLastMsg = messages[messages.length - 2];
-    console.log("seecor: ", lastMsg, secondLastMsg)
 
-    if (lastMsg?.isLoading && secondLastMsg?.role === 'user') {
-      handleDeleteChatMessages(activeConversationId, 2);
-      console.log("new second last: : ", secondLastMsg)
+    if (lastMsg?.isLoading && secondLastMsg?.role === "user") {
+      handleDeleteChatMessages(activeChatId, 2);
       handleSubmitMessage(
-        activeConversationId,
+        activeChatId,
         secondLastMsg.content,
         activeConversation,
         setCurrentInput
@@ -77,7 +78,7 @@ export default function ChatPage() {
       {width >= 768 ? (
         <Sidebar
           conversations={conversations}
-          activeConversationId={activeConversationId}
+          activeChatId={activeChatId}
           onCreateNewChat={() => handleCreateNewChat(setCurrentInput)}
           onSelectChat={(id) => handleSelectChat(id, setCurrentInput)}
           onDeleteChat={handleDeleteChat}
@@ -95,7 +96,7 @@ export default function ChatPage() {
             {width < 768 ? (
               <Sidebar
                 conversations={conversations}
-                activeConversationId={activeConversationId}
+                activeChatId={activeChatId}
                 onCreateNewChat={() => handleCreateNewChat(setCurrentInput)}
                 onSelectChat={(id) => handleSelectChat(id, setCurrentInput)}
                 onDeleteChat={handleDeleteChat}
@@ -128,7 +129,7 @@ export default function ChatPage() {
               onInputChange={setCurrentInput}
               onSubmit={(event) =>
                 handleSubmitMessage(
-                  activeConversationId,
+                  activeChatId,
                   currentInput,
                   activeConversation,
                   setCurrentInput,
@@ -136,7 +137,7 @@ export default function ChatPage() {
                 )
               }
               isLoading={activeConversation.isLoading ?? false}
-              disabled={!activeConversationId}
+              disabled={!activeChatId}
             />
           </>
         ) : (

@@ -1,5 +1,9 @@
 import { isToday, isYesterday, parseISO, format } from "date-fns";
 
+/**
+ * Sort chat history by date
+ * Latest chat comes above
+ */
 export default function GroupChatsByDate() {
 
 function groupConversationsByDate(conversations: any) {

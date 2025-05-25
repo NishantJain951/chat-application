@@ -15,6 +15,12 @@ import {
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme();
 
+  /**
+   * Toggles the application theme
+   * @param label 
+   * @param value 
+   * @returns 
+   */
   const renderItem = (label: string, value: string) => (
     <DropdownMenuItem
       onClick={() => setTheme(value)}

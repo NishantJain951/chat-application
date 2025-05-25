@@ -14,6 +14,10 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
 
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
+  /**
+   * Copy the code (if code is available in response)
+   * @param code 
+   */
   const handleCopy = (code: string) => {
     navigator.clipboard.writeText(code);
     setCopiedCode(code);
@@ -36,8 +40,8 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
     >
       <div
         className={cn(
-          "max-w-[90%]! sm:max-w-[70%]! px-4 py-3 rounded-[2rem] shadow-xl ring-1 ring-black/10 transition-all",
-          isUser ? "bg-primary text-primary-foreground dark:bg-gray-700 dark:text-gray-100 ml-auto" : "bg-muted"
+          "max-w-[80%]! sm:max-w-[70%]! px-4 py-[15px]! my-[7px] rounded-[2rem] shadow-xl ring-1 ring-black/10 transition-all",
+          isUser ? "bg-primary text-primary-foreground dark:bg-gray-600 dark:text-gray-100 ml-auto" : "bg-muted"
         )}
       >
         <div className="whitespace-pre-wrap">{content}</div>

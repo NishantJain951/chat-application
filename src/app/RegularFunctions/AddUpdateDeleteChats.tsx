@@ -3,24 +3,28 @@ import {
   addMessageToConversation,
   deleteConversation,
   setActiveConversationId,
-  updateConversation,
-  updateMessageInConversation,
+  updateChat,
+  updateMessageInChat,
 } from "../../redux/Actions";
 import { ChatMessage, Conversation } from "../../lib/types";
 import { format } from "date-fns";
 import { nanoid } from "nanoid";
 import { useDispatch } from "react-redux";
+import { useTheme } from "next-themes";
+import Swal from "sweetalert2";
 
 export default function AddUpdateDeleteChats(): any {
   const dispatch = useDispatch();
+  const { resolvedTheme } = useTheme();
 
   /**
    * Creates a new chat conversation.
    *
-   * @param {Function} setCurrentInput - A useState function to clear the message input field in the UI.
+   * @param {Function} setCurrentInput
    */
   const handleCreateNewChat = (setCurrentInput: (input: string) => void) => {
     const newId = nanoid();
+    console.log("resolvedTheme: ", resolvedTheme);
     const now = format(new Date(), "hh:mm:a");
     const newConvo: Conversation = {
       id: newId,
@@ -37,8 +41,8 @@ export default function AddUpdateDeleteChats(): any {
   /**
    * Selects an existing chat conversation, making it the active one.
    *
-   * @param {string} id - The ID of the conversation to select.
-   * @param {Function} setCurrentInput - A state setter function to clear the message input field.
+   * @param {string} id
+   * @param {Function} setCurrentInput
    */
   const handleSelectChat = (
     id: string,
@@ -51,19 +55,38 @@ export default function AddUpdateDeleteChats(): any {
   /**
    * Deletes a chat conversation.
    *
-   * @param {string} id - The ID of the conversation to delete.
+   * @param {string} id
    */
-  const handleDeleteChat = (id: string) => {
-    dispatch(deleteConversation(id));
-  };
+const handleDeleteChat = (id: string) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Do you really want to delete this chat?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel",
+    background: resolvedTheme === "dark" ? "#1f2937" : "#fff",
+    color: resolvedTheme === "dark" ? "#f9fafb" : "#111827",
+    customClass: {
+      confirmButton: "swal-confirm-btn",
+      cancelButton: "swal-cancel-btn",
+      popup: "rounded-xl",
+    },
+    buttonsStyling: false,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      dispatch(deleteConversation(id));
+    }
+  });
+};
 
   /**
    * Adds a new message to a specific conversation.
    *
-   * @param {string} convoId - The ID of the conversation to add the message to.
-   * @param {ChatMessage} message - The chat message object to add.
+   * @param {string} convoId
+   * @param {ChatMessage} message
    */
-  const addMessageToConversationHandler = (
+  const addMessageToChatHandler = (
     convoId: string,
     message: ChatMessage
   ) => {
@@ -71,39 +94,39 @@ export default function AddUpdateDeleteChats(): any {
   };
 
   /**
-   * Updates properties of an existing message within a specific conversation..
+   * Updates properties of an existing message within a specific conversation/chat.
    *
-   * @param {string} convoId - The ID of the conversation containing the message.
-   * @param {string} messageId - The ID of the message to update.
-   * @param {Partial<ChatMessage>} updates - An object containing the message properties to update.
+   * @param {string} convoId
+   * @param {string} messageId
+   * @param {Partial<ChatMessage>} updates
    */
-  const updateMessageInConversationHandler = (
+  const updateMessageInChatHandler = (
     convoId: string,
     messageId: string,
     updates: Partial<ChatMessage>
   ) => {
-    dispatch(updateMessageInConversation({ convoId, messageId, updates }));
+    dispatch(updateMessageInChat({ convoId, messageId, updates }));
   };
 
   /**
-   * Updates properties of an existing conversation.
+   * Updates properties of an existing conversation/chat.
    *
-   * @param {string} id - The ID of the conversation to update.
-   * @param {Partial<Conversation>} updates - An object containing the conversation properties like API loading to update.
+   * @param {string} id
+   * @param {Partial<Conversation>} updates
    */
-  const updateConversationHandler = (
+  const updateChatHandler = (
     id: string,
     updates: Partial<Conversation>
   ) => {
-    dispatch(updateConversation({ id, updates }));
+    dispatch(updateChat({ id, updates }));
   };
 
   return {
     handleCreateNewChat,
     handleSelectChat,
     handleDeleteChat,
-    updateConversationHandler,
-    addMessageToConversationHandler,
-    updateMessageInConversationHandler,
+    updateChatHandler,
+    addMessageToChatHandler,
+    updateMessageInChatHandler,
   };
 }

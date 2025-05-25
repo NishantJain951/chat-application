@@ -12,7 +12,7 @@ import { cn } from "../lib/utils";
 
 export default function SidebarContent({
   conversations,
-  activeConversationId,
+  activeChatId,
   onCreateNewChat,
   onSelectChat,
   onDeleteChat,
@@ -68,7 +68,7 @@ export default function SidebarContent({
                       }}
                       className={cn(
                         "w-full flex justify-between items-center text-left h-auto py-2.5 px-3 rounded-md cursor-pointer group!",
-                        activeConversationId === convo.id
+                        activeChatId === convo.id
                           ? "bg-primary/20 text-primary hover:bg-primary/25"
                           : "hover:bg-accent hover:text-accent-foreground"
                       )}
@@ -84,7 +84,7 @@ export default function SidebarContent({
                         variant="ghost"
                         size="icon"
                         className={`ml-2 h-7 w-7 opacity-100 focus-visible:opacity-100 flex-shrink-0 ${
-                          activeConversationId === convo.id
+                          activeChatId === convo.id
                             ? "bg-primary/20 text-primary hover:bg-primary/25"
                             : "hover:bg-accent hover:text-accent-foreground"
                         }`}

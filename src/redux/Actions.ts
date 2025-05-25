@@ -24,7 +24,7 @@ export const deleteConversation = (id: string) => ({
   payload: id,
 });
 
-export const updateConversation = (payload: {
+export const updateChat = (payload: {
   id: string;
   updates: Partial<Conversation>;
 }) => ({
@@ -40,7 +40,7 @@ export const addMessageToConversation = (payload: {
   payload,
 });
 
-export const updateMessageInConversation = (payload: {
+export const updateMessageInChat = (payload: {
   convoId: string;
   messageId: string;
   updates: Partial<ChatMessage>;
