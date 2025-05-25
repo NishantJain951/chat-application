@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Conversation } from "../lib/types";
 import { ThemeToggle } from "../components/ThemeToggle";
 import { Button } from "../components/ui/button";
@@ -10,17 +10,16 @@ import ChatInput from "../components/ChatInput";
 import MessageList from "../components/MessageList";
 import SubmitChatFunction from "./RegularFunctions/SubmitChatConversation";
 import AddUpdateDeleteChats from "./RegularFunctions/AddUpdateDeleteChats";
+import { deleteChatMessages } from "@/redux/Actions";
 
 export default function ChatPage() {
-  const {
-    handleCreateNewChat,
-    handleSelectChat,
-    handleDeleteChat,
-  } = AddUpdateDeleteChats();
+  const { handleCreateNewChat, handleSelectChat, handleDeleteChat } =
+    AddUpdateDeleteChats();
   const { handleSubmitMessage } = SubmitChatFunction();
   const [width, setWidth] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [currentInput, setCurrentInput] = useState("");
+  const dispatch = useDispatch();
 
   const conversations = useSelector(
     (state: any) => state.conversations.conversations
@@ -31,6 +30,31 @@ export default function ChatPage() {
   const activeConversation = conversations?.length
     ? conversations.find((c: Conversation) => c.id === activeConversationId)
     : null;
+
+  useEffect(() => {
+    if (!activeConversation || !activeConversation.messages?.length) return;
+
+    const messages = [...activeConversation.messages];
+    const lastMsg = messages[messages.length - 1];
+    const secondLastMsg = messages[messages.length - 2];
+    console.log("seecor: ", lastMsg, secondLastMsg)
+
+    if (lastMsg?.isLoading && secondLastMsg?.role === 'user') {
+      handleDeleteChatMessages(activeConversationId, 2);
+      console.log("new second last: : ", secondLastMsg)
+      handleSubmitMessage(
+        activeConversationId,
+        secondLastMsg.content,
+        activeConversation,
+        setCurrentInput
+      );
+    }
+    //eslint-disable-next-line
+  }, []);
+
+  const handleDeleteChatMessages = (id: any, count: any) => {
+    dispatch(deleteChatMessages({ convoId: id, count }));
+  };
 
   /**
    * Add fixed sidebar for width greater than 768px width

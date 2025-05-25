@@ -36,8 +36,8 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
     >
       <div
         className={cn(
-          "max-w-[75%] sm:max-w-[75%] p-3 rounded-xl shadow-sm break-words",
-          isUser ? "bg-primary text-primary-foreground ml-auto" : "bg-muted"
+          "max-w-[90%]! sm:max-w-[70%]! px-4 py-3 rounded-[2rem] shadow-xl ring-1 ring-black/10 transition-all",
+          isUser ? "bg-primary text-primary-foreground dark:bg-gray-700 dark:text-gray-100 ml-auto" : "bg-muted"
         )}
       >
         <div className="whitespace-pre-wrap">{content}</div>

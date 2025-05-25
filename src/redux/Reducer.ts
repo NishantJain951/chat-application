@@ -6,6 +6,7 @@ import {
   UPDATE_CONVERSATION,
   ADD_MESSAGE_TO_CONVERSATION,
   UPDATE_MESSAGE_IN_CONVERSATION,
+  DELETE_CHAT_MESSAGES,
 } from "./ActionTypes";
 
 interface ConversationsState {
@@ -87,6 +88,25 @@ export default function conversationsReducer(
             : c
         ),
       };
+ case DELETE_CHAT_MESSAGES:
+  const count = Number(action.payload.count) || 1
+  return {
+    ...state,
+    conversations: state.conversations.map((c) =>
+      c.id === action.payload.convoId
+        ? {
+            ...c,
+            messages:
+              c.messages.length > 0 &&
+              c.messages[c.messages.length - 1].isLoading
+                ? c.messages.slice(0, -count)
+                : c.messages,
+          }
+        : c
+    ),
+  };
+
+
     default:
       return state;
   }

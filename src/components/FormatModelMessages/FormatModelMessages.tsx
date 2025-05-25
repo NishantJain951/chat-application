@@ -28,15 +28,15 @@ export default function formatAssistantMessage(
     parts.push(
       <div
         key={`code-${match.index}`}
-        className="relative group my-6 rounded-xl bg-gray-900 text-gray-100 border border-gray-800 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+        className="relative group my-6 rounded-xl border border-gray-500 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
       >
-        <div className="flex items-center justify-between px-4 py-2 bg-gray-800/50 border-b border-gray-700">
-          <span className="text-xs font-mono text-gray-400 font-extrabold capitalize">
+        <div className="flex items-center justify-between px-4 py-2 bg-gray-800/50! border-b border-gray-700!">
+          <span className="text-xs font-mono text-gray-200 font-extrabold capitalize">
             {firstLine || "Code"}
           </span>
           <button
             onClick={() => onCopy(restOfLines)}
-            className="p-2 rounded-lg bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 hover:text-white transition-all duration-200 flex items-center gap-2"
+            className="p-2 rounded-lg bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-white transition-all duration-200 flex items-center gap-2"
             title="Copy code"
           >
             {copiedCode === restOfLines ? (
@@ -47,7 +47,7 @@ export default function formatAssistantMessage(
           </button>
         </div>
         <pre className="px-5 py-4 text-sm font-mono overflow-x-auto bg-gray-900!">
-          <code className="language-jsx bg-gray-900!">{restOfLines}</code>
+          <code className="language-jsx text-gray-200">{restOfLines}</code>
         </pre>
         <div className="absolute inset-0 pointer-events-none border-2 border-transparent group-hover:border-blue-500/30 rounded-xl transition-colors duration-300"></div>
       </div>

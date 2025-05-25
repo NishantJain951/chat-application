@@ -83,8 +83,7 @@ export default function SubmitChatFunction(): any {
       role: "assistant",
       content: "",
       isLoading: true,
-      createdAt: new Date().toISOString(),
-      isLoadingError: true
+      createdAt: new Date().toISOString()
     });
 
     const geminiHistory: GeminiContent[] = activeConversation.messages
@@ -123,8 +122,7 @@ export default function SubmitChatFunction(): any {
           {
             content: `Error: ${errorMessage}`,
             isLoading: false,
-            isError: true,
-            isLoadingError: true,
+            isError: true
           }
         );
         throw new Error(`API Error (${response.status}): ${errorMessage}`);
@@ -171,8 +169,7 @@ export default function SubmitChatFunction(): any {
         {
           content: "Error: Could not get response.",
           isLoading: false,
-          isError: true,
-          isLoadingError: true
+          isError: true
         }
       );
       throw new Error(
@@ -201,15 +198,13 @@ export default function SubmitChatFunction(): any {
         currentText = fullText.slice(0, i);
         updateMessageInConversationHandler(convoId, messageId, {
           content: currentText,
-          isLoading: true,
-          isLoadingError: true
+          isLoading: true
         });
         await new Promise((resolve) => setTimeout(resolve, typingDelay));
       }
       updateMessageInConversationHandler(convoId, messageId, {
         content: fullText,
-        isLoading: false,
-        isLoadingError: false
+        isLoading: false
       });
     },
     [updateMessageInConversationHandler]

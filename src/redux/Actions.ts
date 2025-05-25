@@ -6,6 +6,7 @@ import {
   UPDATE_CONVERSATION,
   ADD_MESSAGE_TO_CONVERSATION,
   UPDATE_MESSAGE_IN_CONVERSATION,
+  DELETE_CHAT_MESSAGES,
 } from "./ActionTypes";
 
 export const addConversation = (conversation: Conversation) => ({
@@ -45,5 +46,13 @@ export const updateMessageInConversation = (payload: {
   updates: Partial<ChatMessage>;
 }) => ({
   type: UPDATE_MESSAGE_IN_CONVERSATION,
+  payload,
+});
+
+export const deleteChatMessages = (payload: {
+  convoId: string;
+  count: number;
+}) => ({
+  type: DELETE_CHAT_MESSAGES,
   payload,
 });

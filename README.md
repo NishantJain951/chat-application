@@ -94,5 +94,7 @@ Cypress is used for end-to-end testing.
 *   [Cypress](https://www.cypress.io/) - E2E Testing Framework
 
 
-## Vercal Link
-* [Vercel-chat-app](https://chat-application-pied-alpha.vercel.app/) - Deployed on Vercel
+## Deployed on Vercel
+
+You can view the live application here:  
+🔗 [Vercel Chat App](http://chat-application-six-sage.vercel.app/)
