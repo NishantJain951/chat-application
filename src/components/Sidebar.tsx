@@ -18,7 +18,7 @@ export default function Sidebar(props: SidebarProps) {
 
   return (
     <>
-      <div className="md:hidden p-2 sticky top-0 bg-background z-10">
+      <div className="md:hidden pt-2 pb-2 pl-0 sticky top-0 bg-background z-10">
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetTrigger asChild>
             <Button
