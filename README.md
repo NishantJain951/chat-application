@@ -78,12 +78,19 @@ Cypress is used for end-to-end testing.
     npx cypress install # This step might not always be necessary if npm install handles it.
     ```
 
-2.  **Open Cypress Test Runner:**
-    Make sure your development server (`npm run dev`) is running on 3000 port in a separate terminal. Then, open the Cypress Test Runner:
+2.  **Open Cypress Test Runner (Interactive):**
+    Make sure your development server (`npm run dev`) is running on port 3000 in a separate terminal. Then, open the Cypress Test Runner:
     ```bash
     npx cypress open
     ```
-    This will open the Cypress application where you can select and run your e2e tests.
+    This opens the Cypress app where you can select and run your e2e tests manually.
+
+3.  **Run Cypress Tests Headlessly:**
+    To run all Cypress tests in the terminal without UI, ideal for CI or quick checks:
+    ```bash
+    npx cypress run
+    ```
+    This will run tests and generate videos/screenshots if configured.
 ---
 
 ## [Built With]
