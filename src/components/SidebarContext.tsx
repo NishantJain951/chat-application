@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { SidebarProps } from "../lib/types";
-import GroupChatsByDate from "@/app/RegularFunctions/GroupChatsByData";
+import GroupChatsByDate from "../app/RegularFunctions/GroupChatsByDate";
 import { Button } from "./ui/button";
 import {
   ChatBubbleIcon,
