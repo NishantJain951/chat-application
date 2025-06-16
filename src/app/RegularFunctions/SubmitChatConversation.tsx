@@ -52,8 +52,7 @@ export default function SubmitChatFunction(): any {
     );
 
     if (nonErrorConversations.length >= MAX_MESSAGES_PER_CONVERSATION) {
-      console.log("code in react js: ", activeConversation);
-      toast.error(
+      toast.warning(
         `Maximum limit of ${MAX_MESSAGES_PER_CONVERSATION} messages reached in this conversation. Please start a new conversation.`
       );
       return;

@@ -24,7 +24,6 @@ export default function AddUpdateDeleteChats(): any {
    */
   const handleCreateNewChat = (setCurrentInput: (input: string) => void) => {
     const newId = nanoid();
-    console.log("resolvedTheme: ", resolvedTheme);
     const now = format(new Date(), "hh:mm:a");
     const newConvo: Conversation = {
       id: newId,
