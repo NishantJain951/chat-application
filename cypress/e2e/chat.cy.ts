@@ -61,7 +61,6 @@ describe("Chat Application E2E - Conversation Management (with Debug Pauses)", (
    * Total e2e testing
    */
   it("should allow creating multiple conversations, selecting them, and deleting one", () => {
-
     /**
      * First conversation
      */
@@ -84,7 +83,7 @@ describe("Chat Application E2E - Conversation Management (with Debug Pauses)", (
     cy.log("First conversation created and message sent.");
 
     cy.log("Test Step: Creating Second Conversation");
-    
+
     cy.get("aside button", { timeout: 10000 })
       .contains(/New Chat/i)
       .click();
@@ -118,6 +117,9 @@ describe("Chat Application E2E - Conversation Management (with Debug Pauses)", (
       .find('[role="button"]')
       .contains(secondConvoMessage.substring(0, 30), { matchCase: false });
 
+    /**
+     * Select first chat
+     */
     cy.log("Test Step: Selecting First Conversation");
 
     cy.get("aside")
@@ -136,6 +138,9 @@ describe("Chat Application E2E - Conversation Management (with Debug Pauses)", (
 
     cy.log("First conversation selected.");
 
+    /**
+     * Delete second chat
+     */
     cy.log("Test Step: Deleting Second Conversation");
 
     cy.get("aside")
@@ -145,9 +150,9 @@ describe("Chat Application E2E - Conversation Management (with Debug Pauses)", (
       .find('button[title="Delete chat"]')
       .click({ force: true });
 
-      cy.log("Waiting for SweetAlert2 and confirming delete.");
-cy.get('.swal2-popup', { timeout: 10000 }).should('be.visible');
-cy.get('.swal2-confirm').click();
+    cy.log("Waiting for SweetAlert2 and confirming delete.");
+    cy.get(".swal2-popup", { timeout: 10000 }).should("be.visible");
+    cy.get(".swal2-confirm").click();
 
     cy.log(
       "Delete button clicked for second conversation (window.confirm stubbed)."
@@ -160,13 +165,16 @@ cy.get('.swal2-confirm').click();
 
     cy.log("Second conversation successfully deleted from sidebar.");
 
+    /**
+     * Verify the first chat
+     */
     cy.log("Test Step: Verifying first conversation remains");
 
     cy.get("aside")
       .find('[role="button"]')
       .contains(firstConvoMessage.substring(0, 30), { matchCase: false })
       .should("be.visible");
-      
+
     cy.get("h1.text-lg.font-semibold", { timeout: 10000 }).should(
       "contain.text",
       firstConvoMessage.substring(0, 30)
@@ -183,9 +191,9 @@ cy.get('.swal2-confirm').click();
       .find('button[title="Delete chat"]')
       .click({ force: true });
 
-      cy.log("Waiting for SweetAlert2 and confirming delete.");
-cy.get('.swal2-popup', { timeout: 10000 }).should('be.visible');
-cy.get('.swal2-confirm').click();
+    cy.log("Waiting for SweetAlert2 and confirming delete.");
+    cy.get(".swal2-popup", { timeout: 10000 }).should("be.visible");
+    cy.get(".swal2-confirm").click();
 
     cy.log("Delete button clicked for first conversation.");
 
@@ -195,7 +203,6 @@ cy.get('.swal2-confirm').click();
 
     cy.log("All conversations deleted, UI shows empty state.");
 
-    
     /**
      * Last conversation to check what happens when API call fails
      */
@@ -224,7 +231,7 @@ cy.get('.swal2-confirm').click();
     cy.get('textarea[placeholder="Send a message..."]')
       .clear()
       .type(failureMessage);
-      
+
     cy.get('button[aria-label="Send message"]').click();
     cy.contains(".flex.justify-end", failureMessage, { timeout: 10000 }).should(
       "be.visible"

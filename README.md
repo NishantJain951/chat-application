@@ -35,7 +35,7 @@ Follow these instructions to get a copy of the project up and running on your lo
         Open the newly created `.env.local` file and add your API key.
         ```ini
         # .env.local (for client-side exposure)
-        # NEXT_PUBLIC_GEMINI_API_KEY=your_actual_gemini_api_key_here
+        # NEXT_PUBLIC_API_KEY=your_actual_gemini_api_key_here
         ```
         *Please ensure you are using the correct variable name as expected by the application code.*
 

@@ -56,28 +56,28 @@ export default function AddUpdateDeleteChats(): any {
    *
    * @param {string} id
    */
-const handleDeleteChat = (id: string) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "Do you really want to delete this chat?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Yes, delete it!",
-    cancelButtonText: "Cancel",
-    background: resolvedTheme === "dark" ? "#1f2937" : "#fff",
-    color: resolvedTheme === "dark" ? "#f9fafb" : "#111827",
-    customClass: {
-      confirmButton: "swal-confirm-btn",
-      cancelButton: "swal-cancel-btn",
-      popup: "rounded-xl",
-    },
-    buttonsStyling: false,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      dispatch(deleteConversation(id));
-    }
-  });
-};
+  const handleDeleteChat = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this chat?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      background: resolvedTheme === "dark" ? "#1f2937" : "#fff",
+      color: resolvedTheme === "dark" ? "#f9fafb" : "#111827",
+      customClass: {
+        confirmButton: "swal-confirm-btn",
+        cancelButton: "swal-cancel-btn",
+        popup: "rounded-xl",
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteConversation(id));
+      }
+    });
+  };
 
   /**
    * Adds a new message to a specific conversation.
@@ -85,10 +85,7 @@ const handleDeleteChat = (id: string) => {
    * @param {string} convoId
    * @param {ChatMessage} message
    */
-  const addMessageToChatHandler = (
-    convoId: string,
-    message: ChatMessage
-  ) => {
+  const addMessageToChatHandler = (convoId: string, message: ChatMessage) => {
     dispatch(addMessageToConversation({ convoId, message }));
   };
 
@@ -113,10 +110,7 @@ const handleDeleteChat = (id: string) => {
    * @param {string} id
    * @param {Partial<Conversation>} updates
    */
-  const updateChatHandler = (
-    id: string,
-    updates: Partial<Conversation>
-  ) => {
+  const updateChatHandler = (id: string, updates: Partial<Conversation>) => {
     dispatch(updateChat({ id, updates }));
   };
 
